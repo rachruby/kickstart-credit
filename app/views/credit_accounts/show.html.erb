@@ -1,0 +1,50 @@
+<div class="page-head">
+  <h1><%= @account.name %> <%= status_badge(@account.status) %></h1>
+  <div>
+    <%= link_to "Edit", edit_credit_account_path(@account), class: "btn btn-secondary" %>
+    <%= button_to "Close & delete", @account, method: :delete, class: "btn btn-danger",
+          form: { data: { turbo_confirm: "Delete this account?" }, style: "display:inline" } %>
+  </div>
+</div>
+
+<div class="grid grid-3">
+  <div class="card stat"><div class="stat-label">Limit</div>
+    <div class="stat-value"><%= format_cents(@account.credit_limit_cents) %></div></div>
+  <div class="card stat"><div class="stat-label">Balance</div>
+    <div class="stat-value"><%= format_cents(@account.balance_cents) %></div></div>
+  <div class="card stat"><div class="stat-label">Utilization</div>
+    <div class="stat-value"><%= @account.utilization_pct %>%</div>
+    <div class="stat-sub"><%= @account.utilization > 0.3 ? "Above the 30% guideline" : "Healthy" %></div></div>
+</div>
+
+<section class="card">
+  <h2>Payment history</h2>
+  <table>
+    <thead><tr><th>Due</th><th>Amount</th><th>Paid on</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+      <% @payments.each do |payment| %>
+        <tr class="<%= "row-overdue" if payment.overdue? %>">
+          <td><%= payment.due_on.strftime("%b %-d, %Y") %></td>
+          <td><%= format_cents(payment.amount_cents) %></td>
+          <td><%= payment.paid_on&.strftime("%b %-d, %Y") || "—" %></td>
+          <td><%= status_badge(payment.status) %><%= " ⚠️" if payment.overdue? %></td>
+          <td>
+            <% if payment.scheduled? %>
+              <%= button_to "Mark paid", mark_paid_credit_account_payment_path(@account, payment),
+                    method: :patch, class: "btn-mini" %>
+            <% end %>
+            <%= button_to "×", credit_account_payment_path(@account, payment),
+                  method: :delete, class: "btn-mini" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <h3>Schedule a payment</h3>
+  <%= form_with model: [@account, @new_payment], class: "inline-form" do |f| %>
+    <%= f.number_field :amount_cents, placeholder: "Amount (cents)", min: 1, required: true %>
+    <%= f.date_field :due_on, required: true %>
+    <%= f.submit "Schedule", class: "btn" %>
+  <% end %>
+</section>

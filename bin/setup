@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+require "fileutils"
+
+def system!(*args)
+  system(*args, exception: true)
+end
+
+APP_ROOT = File.expand_path("..", __dir__)
+FileUtils.chdir APP_ROOT do
+  puts "== Installing dependencies =="
+  system("bundle check") || system!("bundle install")
+  puts "\n== Preparing database =="
+  system! "bin/rails db:prepare"
+  system! "bin/rails db:seed"
+  puts "\n== Ready! Run: bin/rails server =="
+end

@@ -1,0 +1,6 @@
+draft_dispute:
+  user: demo
+  bureau: Equifax
+  item_description: Collections account from Acme Telecom
+  reason: Not my account
+  status: draft

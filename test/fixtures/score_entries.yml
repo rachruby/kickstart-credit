@@ -1,0 +1,4 @@
+recent:
+  user: demo
+  score: 655
+  recorded_on: <%= 10.days.ago.to_date %>

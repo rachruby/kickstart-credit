@@ -1,0 +1,4 @@
+demo_goal:
+  user: demo
+  target_score: 700
+  target_date: 2026-12-31

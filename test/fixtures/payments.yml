@@ -1,0 +1,19 @@
+on_time:
+  credit_account: builder
+  amount_cents: 1000
+  due_on: 2026-07-01
+  paid_on: 2026-06-30
+  status: paid
+
+late_one:
+  credit_account: builder
+  amount_cents: 1000
+  due_on: 2026-08-01
+  paid_on: 2026-08-05
+  status: late
+
+upcoming:
+  credit_account: builder
+  amount_cents: 1000
+  due_on: <%= 20.days.from_now.to_date %>
+  status: scheduled

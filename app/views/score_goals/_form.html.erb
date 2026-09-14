@@ -1,0 +1,13 @@
+<%= form_with model: score_goal, url: score_goal_path, class: "card form" do |f| %>
+  <% if score_goal.errors.any? %>
+    <div class="flash flash-alert">
+      <ul><% score_goal.errors.full_messages.each do |msg| %><li><%= msg %></li><% end %></ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= f.label :target_score, "Target score (300–850)" %>
+    <%= f.number_field :target_score, min: 300, max: 850, required: true %>
+  </div>
+  <div class="field"><%= f.label :target_date %><%= f.date_field :target_date, required: true %></div>
+  <%= f.submit class: "btn" %>
+<% end %>

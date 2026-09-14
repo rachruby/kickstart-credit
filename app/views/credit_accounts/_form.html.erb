@@ -1,0 +1,23 @@
+<%= form_with model: account, class: "card form" do |f| %>
+  <% if account.errors.any? %>
+    <div class="flash flash-alert">
+      <ul><% account.errors.full_messages.each do |msg| %><li><%= msg %></li><% end %></ul>
+    </div>
+  <% end %>
+
+  <div class="field"><%= f.label :name %><%= f.text_field :name, required: true %></div>
+  <div class="field">
+    <%= f.label :credit_limit_cents, "Credit limit (cents)" %>
+    <%= f.number_field :credit_limit_cents, min: 1, required: true %>
+  </div>
+  <div class="field">
+    <%= f.label :balance_cents, "Current balance (cents)" %>
+    <%= f.number_field :balance_cents, min: 0, required: true %>
+  </div>
+  <div class="field"><%= f.label :opened_on %><%= f.date_field :opened_on, required: true %></div>
+  <div class="field">
+    <%= f.label :status %>
+    <%= f.select :status, CreditAccount.statuses.keys.map { |s| [s.humanize, s] } %>
+  </div>
+  <%= f.submit class: "btn" %>
+<% end %>

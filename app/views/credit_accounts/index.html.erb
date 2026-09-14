@@ -1,0 +1,26 @@
+<div class="page-head">
+  <h1>Credit accounts</h1>
+  <%= link_to "＋ Open account", new_credit_account_path, class: "btn" %>
+</div>
+
+<% if @accounts.any? %>
+  <table class="card">
+    <thead>
+      <tr><th>Name</th><th>Limit</th><th>Balance</th><th>Utilization</th><th>Opened</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <% @accounts.each do |account| %>
+        <tr>
+          <td><%= link_to account.name, account %></td>
+          <td><%= format_cents(account.credit_limit_cents) %></td>
+          <td><%= format_cents(account.balance_cents) %></td>
+          <td><%= account.utilization_pct %>%</td>
+          <td><%= account.opened_on.strftime("%b %Y") %></td>
+          <td><%= status_badge(account.status) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p class="muted">Nothing here yet.</p>
+<% end %>

@@ -1,0 +1,32 @@
+<div class="page-head">
+  <h1><%= @dispute.bureau %> dispute <%= status_badge(@dispute.status) %></h1>
+  <div>
+    <% if @dispute.draft? %>
+      <%= link_to "Edit", edit_dispute_path(@dispute), class: "btn btn-secondary" %>
+      <%= button_to "Generate letter & submit", submit_dispute_path(@dispute),
+            method: :patch, class: "btn", form: { style: "display:inline" } %>
+    <% end %>
+    <% if @dispute.submitted? || @dispute.under_review? %>
+      <%= button_to "Mark resolved", resolve_dispute_path(@dispute, outcome: "resolved"),
+            method: :patch, class: "btn", form: { style: "display:inline" } %>
+      <%= button_to "Mark rejected", resolve_dispute_path(@dispute, outcome: "rejected"),
+            method: :patch, class: "btn btn-danger", form: { style: "display:inline" } %>
+    <% end %>
+    <%= button_to "Delete", @dispute, method: :delete, class: "btn btn-danger",
+          form: { data: { turbo_confirm: "Delete this dispute?" }, style: "display:inline" } %>
+  </div>
+</div>
+
+<div class="card">
+  <p><strong>Item:</strong> <%= @dispute.item_description %></p>
+  <p><strong>Reason:</strong> <%= @dispute.reason %></p>
+  <% if @dispute.submitted_on %><p><strong>Submitted:</strong> <%= @dispute.submitted_on %></p><% end %>
+  <% if @dispute.resolved_on %><p><strong>Closed:</strong> <%= @dispute.resolved_on %></p><% end %>
+</div>
+
+<% if @dispute.letter_body.present? %>
+  <section class="card">
+    <h2>Generated dispute letter</h2>
+    <pre class="letter"><%= @dispute.letter_body %></pre>
+  </section>
+<% end %>

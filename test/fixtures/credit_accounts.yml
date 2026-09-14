@@ -1,0 +1,7 @@
+builder:
+  user: demo
+  name: KickStart Credit Builder
+  credit_limit_cents: 100000
+  balance_cents: 25000
+  opened_on: 2025-01-15
+  status: active

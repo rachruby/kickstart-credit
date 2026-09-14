@@ -1,0 +1,21 @@
+<%= form_with model: dispute, class: "card form" do |f| %>
+  <% if dispute.errors.any? %>
+    <div class="flash flash-alert">
+      <ul><% dispute.errors.full_messages.each do |msg| %><li><%= msg %></li><% end %></ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :bureau %>
+    <%= f.select :bureau, Dispute::BUREAUS %>
+  </div>
+  <div class="field">
+    <%= f.label :item_description, "Disputed item (as it appears on your report)" %>
+    <%= f.text_field :item_description, required: true %>
+  </div>
+  <div class="field">
+    <%= f.label :reason %>
+    <%= f.select :reason, Dispute::REASONS %>
+  </div>
+  <%= f.submit class: "btn" %>
+<% end %>

@@ -1,0 +1,24 @@
+<div class="page-head">
+  <h1>Credit report disputes</h1>
+  <%= link_to "＋ New dispute", new_dispute_path, class: "btn" %>
+</div>
+<p class="muted">Draft a dispute, generate a letter, and track it to resolution — free.</p>
+
+<% if @disputes.any? %>
+  <table class="card">
+    <thead><tr><th>Bureau</th><th>Item</th><th>Reason</th><th>Status</th><th>Submitted</th></tr></thead>
+    <tbody>
+      <% @disputes.each do |dispute| %>
+        <tr>
+          <td><%= dispute.bureau %></td>
+          <td><%= link_to truncate(dispute.item_description, length: 45), dispute %></td>
+          <td><%= dispute.reason %></td>
+          <td><%= status_badge(dispute.status) %></td>
+          <td><%= dispute.submitted_on&.strftime("%b %-d, %Y") || "—" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p class="muted">No disputes yet.</p>
+<% end %>

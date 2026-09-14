@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: kickstart-credit
+    runtime: docker
+    plan: free
+    envVars:
+      - key: SECRET_KEY_BASE
+        generateValue: true
+      - key: RAILS_ENV
+        value: production
